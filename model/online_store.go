@@ -28,7 +28,11 @@ type ProductCategoryResponse struct {
 }
 
 type ShoppingCart struct {
-	ID                int64 `json:"id"`
+	ID                int64 `json:"-"`
 	UserID            int64 `json:"user_id"`
 	ProductCategoryID int64 `json:"product_category_id"`
+}
+
+type ShoppingCartResponse struct {
+	ShoppingCart []ShoppingCart `json:"shopping_cart"`
 }

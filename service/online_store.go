@@ -66,6 +66,28 @@ func (o onlineStoreService) Delete(ctx context.Context, tokenString string, user
 	return nil
 }
 
+func (o onlineStoreService) Read(ctx context.Context, tokenString string, userID int64) (model.ShoppingCartResponse, error) {
+	claim := claims{}
+
+	token, err := jwt.ParseWithClaims(tokenString, &claim, func(token *jwt.Token) (interface{}, error) {
+		return o.secretKey, nil
+	})
+	if err != nil {
+		return model.ShoppingCartResponse{}, err
+	}
+
+	if !token.Valid {
+		return model.ShoppingCartResponse{}, err
+	}
+
+	shoppingCarts, err := o.onlineStoreRepo.Read(ctx, userID)
+	if err != nil {
+		return model.ShoppingCartResponse{}, err
+	}
+
+	return model.ShoppingCartResponse{ShoppingCart: shoppingCarts}, nil
+}
+
 func NewOnlineStoreService(onlineStoreRepo repository.OnlineStoreRepository, secretKey []byte) OnlineStoreService {
 	return onlineStoreService{
 		onlineStoreRepo: onlineStoreRepo,

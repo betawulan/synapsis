@@ -15,4 +15,5 @@ type OnlineStoreRepository interface {
 	Fetch(ctx context.Context, filter model.ProductCategoryFilter) ([]model.ProductCategory, error)
 	Create(ctx context.Context, shoppingCart model.ShoppingCart) (model.ShoppingCart, error)
 	Delete(ctx context.Context, userID int64, productCategoryID int64) error
+	Read(ctx context.Context, user int64) ([]model.ShoppingCart, error)
 }
