@@ -44,9 +44,31 @@ func (o onlineStoreService) Create(ctx context.Context, tokenString string, shop
 	return shoppingCart, nil
 }
 
+func (o onlineStoreService) Delete(ctx context.Context, tokenString string, userID int64, productCategoryID int64) error {
+	claim := claims{}
+
+	token, err := jwt.ParseWithClaims(tokenString, &claim, func(token *jwt.Token) (interface{}, error) {
+		return o.secretKey, nil
+	})
+	if err != nil {
+		return err
+	}
+
+	if !token.Valid {
+		return err
+	}
+
+	err = o.onlineStoreRepo.Delete(ctx, userID, productCategoryID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func NewOnlineStoreService(onlineStoreRepo repository.OnlineStoreRepository, secretKey []byte) OnlineStoreService {
 	return onlineStoreService{
 		onlineStoreRepo: onlineStoreRepo,
-		secretKey: secretKey,
+		secretKey:       secretKey,
 	}
 }
