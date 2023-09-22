@@ -60,6 +60,31 @@ func (o onlineStoreRepo) Fetch(ctx context.Context, filter model.ProductCategory
 	return productCategories, nil
 }
 
+func (o onlineStoreRepo) Create(ctx context.Context, shoppingCart model.ShoppingCart) (model.ShoppingCart, error) {
+
+	query, args, err := sq.Insert("shopping_cart").
+		Columns("user_id",
+			"product_category_id").
+		Values(shoppingCart.UserID,
+			shoppingCart.ProductCategoryID).
+		ToSql()
+	if err != nil {
+		return model.ShoppingCart{}, err
+	}
+
+	res, err := o.db.ExecContext(ctx, query, args...)
+	if err != nil {
+		return model.ShoppingCart{}, err
+	}
+
+	shoppingCart.ID, err = res.LastInsertId()
+	if err != nil {
+		return model.ShoppingCart{}, err
+	}
+
+	return shoppingCart, nil
+}
+
 func NewOnlineStoreRepository(db *sql.DB) OnlineStoreRepository {
 	return onlineStoreRepo{
 		db: db,

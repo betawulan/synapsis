@@ -13,4 +13,5 @@ type AuthService interface {
 
 type OnlineStoreService interface {
 	Fetch(ctx context.Context, filter model.ProductCategoryFilter) (model.ProductCategoryResponse, error)
+	Create(ctx context.Context, tokenString string, shoppingCart model.ShoppingCart) (model.ShoppingCart, error)
 }

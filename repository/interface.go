@@ -13,4 +13,5 @@ type AuthRepository interface {
 
 type OnlineStoreRepository interface {
 	Fetch(ctx context.Context, filter model.ProductCategoryFilter) ([]model.ProductCategory, error)
+	Create(ctx context.Context, shoppingCart model.ShoppingCart) (model.ShoppingCart, error)
 }

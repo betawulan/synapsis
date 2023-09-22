@@ -38,7 +38,7 @@ func main() {
 	onlineStoreRepo := repository.NewOnlineStoreRepository(db)
 
 	authService := service.NewAuthService(authRepo, []byte(secretKey))
-	onlineStoreService := service.NewOnlineStoreService(onlineStoreRepo)
+	onlineStoreService := service.NewOnlineStoreService(onlineStoreRepo, []byte(secretKey))
 
 	e := echo.New()
 	delivery.AddAuthRoute(authService, e)
