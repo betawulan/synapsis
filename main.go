@@ -35,10 +35,14 @@ func main() {
 	port := viper.GetString("port")
 
 	authRepo := repository.NewAuthRepository(db)
+	onlineStoreRepo := repository.NewOnlineStoreRepository(db)
+
 	authService := service.NewAuthService(authRepo, []byte(secretKey))
+	onlineStoreService := service.NewOnlineStoreService(onlineStoreRepo)
 
 	e := echo.New()
 	delivery.AddAuthRoute(authService, e)
+	delivery.RegisterOnlineStoreRoute(onlineStoreService, e)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", port)))
 }
