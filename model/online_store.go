@@ -23,10 +23,6 @@ type ProductCategory struct {
 	Category   Category `json:"category"`
 }
 
-type ProductCategoryResponse struct {
-	Products []ProductCategory `json:"products"`
-}
-
 type ShoppingCart struct {
 	ID                int64 `json:"-"`
 	UserID            int64 `json:"user_id"`

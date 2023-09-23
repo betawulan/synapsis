@@ -13,13 +13,13 @@ type onlineStoreService struct {
 	secretKey       []byte
 }
 
-func (o onlineStoreService) Fetch(ctx context.Context, filter model.ProductCategoryFilter) (model.ProductCategoryResponse, error) {
+func (o onlineStoreService) Fetch(ctx context.Context, filter model.ProductCategoryFilter) ([]model.ProductCategory, error) {
 	productCategories, err := o.onlineStoreRepo.Fetch(ctx, filter)
 	if err != nil {
-		return model.ProductCategoryResponse{}, err
+		return nil, err
 	}
 
-	return model.ProductCategoryResponse{Products: productCategories}, nil
+	return productCategories, nil
 }
 
 func (o onlineStoreService) Create(ctx context.Context, tokenString string, shoppingCart model.ShoppingCart) (model.ShoppingCart, error) {

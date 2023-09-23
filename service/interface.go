@@ -12,7 +12,7 @@ type AuthService interface {
 }
 
 type OnlineStoreService interface {
-	Fetch(ctx context.Context, filter model.ProductCategoryFilter) (model.ProductCategoryResponse, error)
+	Fetch(ctx context.Context, filter model.ProductCategoryFilter) ([]model.ProductCategory, error)
 	Create(ctx context.Context, tokenString string, shoppingCart model.ShoppingCart) (model.ShoppingCart, error)
 	Delete(ctx context.Context,tokenString string, userID int64, productCategoryID int64) error
 	Read(ctx context.Context, tokenString string, userID int64) (model.ShoppingCartResponse, error)
