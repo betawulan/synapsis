@@ -48,12 +48,12 @@ func (t transactionDelivery) checkout(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	err = t.transactionService.Checkout(c.Request().Context(), tokens[1], input.ProductCategoryIDs)
+	sumPrice, err := t.transactionService.Checkout(c.Request().Context(), tokens[1], input.ProductCategoryIDs)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
 
-	return c.JSON(http.StatusCreated, "success")
+	return c.JSON(http.StatusCreated, sumPrice)
 }
 
 func AddTransactionRoute(transactionService service.TransactionService, e *echo.Echo) {

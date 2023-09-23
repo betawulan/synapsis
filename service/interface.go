@@ -22,5 +22,5 @@ type ShoppingCartService interface {
 }
 
 type TransactionService interface {
-	Checkout(ctx context.Context, tokenString string,productCategoryIDs []int) error
+	Checkout(ctx context.Context, tokenString string,productCategoryIDs []int) (model.TransactionResponse, error)
 }
