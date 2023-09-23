@@ -19,4 +19,4 @@
 
 **ERD**
 
-    https://postimg.cc/NLsCKpH5
+[![erd-challenge-test-synapsis.png](https://i.postimg.cc/dQdbSfQm/erd-challenge-test-synapsis.png)](https://postimg.cc/NLsCKpH5)
