@@ -15,6 +15,7 @@ type authService struct {
 }
 
 type claims struct {
+	ID    int64  `json:"id"`
 	Name  string `json:"name"`
 	Role  string `json:"role"`
 	Email string `json:"email"`
@@ -37,6 +38,7 @@ func (a authService) Login(ctx context.Context, role string, email string, passw
 	}
 
 	claim := claims{
+		ID:             user.ID,
 		Name:           user.Name,
 		Role:           user.Role,
 		Email:          user.Email,

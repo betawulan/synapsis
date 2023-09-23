@@ -22,26 +22,28 @@ func (o onlineStoreService) Fetch(ctx context.Context, filter model.ProductCateg
 	return productCategories, nil
 }
 
-func (o onlineStoreService) Create(ctx context.Context, tokenString string, shoppingCart model.ShoppingCart) (model.ShoppingCart, error) {
+func (o onlineStoreService) Create(ctx context.Context, tokenString string, shoppingCart model.ShoppingCart) error {
 	claim := claims{}
 
 	token, err := jwt.ParseWithClaims(tokenString, &claim, func(token *jwt.Token) (interface{}, error) {
 		return o.secretKey, nil
 	})
 	if err != nil {
-		return model.ShoppingCart{}, err
+		return err
 	}
 
 	if !token.Valid {
-		return model.ShoppingCart{}, err
+		return err
 	}
 
-	shoppingCart, err = o.onlineStoreRepo.Create(ctx, shoppingCart)
+	shoppingCart.UserID = claim.ID
+
+	_, err = o.onlineStoreRepo.Create(ctx, shoppingCart)
 	if err != nil {
-		return model.ShoppingCart{}, err
+		return err
 	}
 
-	return shoppingCart, nil
+	return nil
 }
 
 func (o onlineStoreService) Delete(ctx context.Context, tokenString string, userID int64, productCategoryID int64) error {
@@ -66,26 +68,26 @@ func (o onlineStoreService) Delete(ctx context.Context, tokenString string, user
 	return nil
 }
 
-func (o onlineStoreService) Read(ctx context.Context, tokenString string, userID int64) (model.ShoppingCartResponse, error) {
+func (o onlineStoreService) Read(ctx context.Context, tokenString string) ([]model.ShoppingCart, error) {
 	claim := claims{}
 
 	token, err := jwt.ParseWithClaims(tokenString, &claim, func(token *jwt.Token) (interface{}, error) {
 		return o.secretKey, nil
 	})
 	if err != nil {
-		return model.ShoppingCartResponse{}, err
+		return nil, err
 	}
 
 	if !token.Valid {
-		return model.ShoppingCartResponse{}, err
+		return nil, err
 	}
 
-	shoppingCarts, err := o.onlineStoreRepo.Read(ctx, userID)
+	shoppingCarts, err := o.onlineStoreRepo.Read(ctx, claim.ID)
 	if err != nil {
-		return model.ShoppingCartResponse{}, err
+		return nil, err
 	}
 
-	return model.ShoppingCartResponse{ShoppingCart: shoppingCarts}, nil
+	return shoppingCarts, nil
 }
 
 func NewOnlineStoreService(onlineStoreRepo repository.OnlineStoreRepository, secretKey []byte) OnlineStoreService {

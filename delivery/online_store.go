@@ -49,12 +49,12 @@ func (o onlineStoreDelivery) create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	shoppingCart, err = o.onlineStoreService.Create(c.Request().Context(), tokens[1], shoppingCart)
+	err = o.onlineStoreService.Create(c.Request().Context(), tokens[1], shoppingCart)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
 
-	return c.JSON(http.StatusCreated, shoppingCart)
+	return c.JSON(http.StatusCreated, "success")
 }
 
 func (o onlineStoreDelivery) delete(c echo.Context) error {
@@ -107,13 +107,7 @@ func (o onlineStoreDelivery) read(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, error_message.Unauthorized{Message: "no Bearer"})
 	}
 
-	userID := c.Param("user_id")
-	userIDint, err := strconv.Atoi(userID)
-	if err != nil {
-		return err
-	}
-
-	shoppingCart, err := o.onlineStoreService.Read(c.Request().Context(), tokens[1], int64(userIDint))
+	shoppingCart, err := o.onlineStoreService.Read(c.Request().Context(), tokens[1])
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
@@ -126,8 +120,8 @@ func RegisterOnlineStoreRoute(onlineStoreService service.OnlineStoreService, e *
 		onlineStoreService: onlineStoreService,
 	}
 
-	e.GET("/product/:user_id", handler.read)
+	e.GET("/shopping-cart", handler.read)
 	e.GET("/product", handler.fetch)
-	e.POST("/product", handler.create)
+	e.POST("/shopping-cart", handler.create)
 	e.DELETE("/product/:user_id/:product_category_id/delete", handler.delete)
 }

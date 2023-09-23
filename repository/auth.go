@@ -44,7 +44,8 @@ func (a authRepo) Register(ctx context.Context, user model.User) error {
 }
 
 func (a authRepo) Login(ctx context.Context, role string, email string, password string) (model.User, error) {
-	query, args, err := sq.Select("name",
+	query, args, err := sq.Select("id",
+		"name",
 		"role",
 		"email").
 		From("user").
@@ -58,7 +59,8 @@ func (a authRepo) Login(ctx context.Context, role string, email string, password
 
 	row := a.db.QueryRowContext(ctx, query, args...)
 	var user model.User
-	err = row.Scan(&user.Name,
+	err = row.Scan(&user.ID,
+		&user.Name,
 		&user.Role,
 		&user.Email)
 	if err != nil {

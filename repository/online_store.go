@@ -103,10 +103,17 @@ func (o onlineStoreRepo) Delete(ctx context.Context, userID int64, productCatego
 }
 
 func (o onlineStoreRepo) Read(ctx context.Context, userID int64) ([]model.ShoppingCart, error) {
-	query, args, err := sq.Select("user_id",
-		"product_category_id").
-		From("shopping_cart").
-		Where(sq.Eq{"user_id": userID}).
+	query, args, err := sq.Select("sc.id",
+		"sc.user_id",
+		"sc.product_category_id",
+		"p.name as product_name",
+		"p.price",
+		"c.name as category_name").
+		From("shopping_cart sc").
+		Join("product_category pc on sc.product_category_id  = pc.id").
+		Join("product p on pc.product_id = p.id").
+		Join("category c on c.id =pc.category_id").
+		Where(sq.Eq{"sc.user_id": userID}).
 		ToSql()
 	if err != nil {
 		return nil, err
@@ -123,8 +130,12 @@ func (o onlineStoreRepo) Read(ctx context.Context, userID int64) ([]model.Shoppi
 	for rows.Next() {
 		var shoppingCart model.ShoppingCart
 
-		err = rows.Scan(&shoppingCart.UserID,
-			&shoppingCart.ProductCategoryID)
+		err = rows.Scan(&shoppingCart.ID,
+			&shoppingCart.UserID,
+			&shoppingCart.ProductCategoryID,
+			&shoppingCart.Product.Name,
+			&shoppingCart.Product.Price,
+			&shoppingCart.Category.Name)
 		if err != nil {
 			return nil, err
 		}
