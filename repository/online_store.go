@@ -85,10 +85,9 @@ func (o onlineStoreRepo) Create(ctx context.Context, shoppingCart model.Shopping
 	return shoppingCart, nil
 }
 
-func (o onlineStoreRepo) Delete(ctx context.Context, userID int64, productCategoryID int64) error {
+func (o onlineStoreRepo) Delete(ctx context.Context, ID int64) error {
 	query, args, err := sq.Delete("shopping_cart").
-		Where(sq.Eq{"user_id": userID}).
-		Where(sq.Eq{"product_category_id": productCategoryID}).
+		Where(sq.Eq{"id": ID}).
 		ToSql()
 	if err != nil {
 		return err

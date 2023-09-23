@@ -72,19 +72,13 @@ func (o onlineStoreDelivery) delete(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, error_message.Unauthorized{Message: "no Bearer"})
 	}
 
-	userID := c.Param("user_id")
-	userIDint, err := strconv.Atoi(userID)
+	ID := c.Param("id")
+	IDint, err := strconv.Atoi(ID)
 	if err != nil {
 		return err
 	}
 
-	productcategoryID := c.Param("product_category_id")
-	productcategoryIDint, err := strconv.Atoi(productcategoryID)
-	if err != nil {
-		return err
-	}
-
-	err = o.onlineStoreService.Delete(c.Request().Context(), tokens[1], int64(userIDint), int64(productcategoryIDint))
+	err = o.onlineStoreService.Delete(c.Request().Context(), tokens[1], int64(IDint))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
@@ -123,5 +117,5 @@ func RegisterOnlineStoreRoute(onlineStoreService service.OnlineStoreService, e *
 	e.GET("/shopping-cart", handler.read)
 	e.GET("/product", handler.fetch)
 	e.POST("/shopping-cart", handler.create)
-	e.DELETE("/product/:user_id/:product_category_id/delete", handler.delete)
+	e.DELETE("/shopping-cart/:id", handler.delete)
 }

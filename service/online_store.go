@@ -46,7 +46,7 @@ func (o onlineStoreService) Create(ctx context.Context, tokenString string, shop
 	return nil
 }
 
-func (o onlineStoreService) Delete(ctx context.Context, tokenString string, userID int64, productCategoryID int64) error {
+func (o onlineStoreService) Delete(ctx context.Context, tokenString string, ID int64) error {
 	claim := claims{}
 
 	token, err := jwt.ParseWithClaims(tokenString, &claim, func(token *jwt.Token) (interface{}, error) {
@@ -60,7 +60,7 @@ func (o onlineStoreService) Delete(ctx context.Context, tokenString string, user
 		return err
 	}
 
-	err = o.onlineStoreRepo.Delete(ctx, userID, productCategoryID)
+	err = o.onlineStoreRepo.Delete(ctx, ID)
 	if err != nil {
 		return err
 	}
