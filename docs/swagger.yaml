@@ -1,0 +1,205 @@
+consumes:
+- application/json
+definitions:
+  delivery.credential:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+  delivery.successLogin:
+    properties:
+      token:
+        example: vrydfjsdoxkewigfhrujhfwe9r8c48jdfuij
+        type: string
+    type: object
+  model.Category:
+    properties:
+      category:
+        type: string
+    type: object
+  model.Product:
+    properties:
+      name:
+        type: string
+      price:
+        type: integer
+    type: object
+  model.ProductCategory:
+    properties:
+      category:
+        $ref: '#/definitions/model.Category'
+      category_id:
+        type: integer
+      id:
+        type: integer
+      product:
+        $ref: '#/definitions/model.Product'
+      product_id:
+        type: integer
+    type: object
+  model.ShoppingCart:
+    properties:
+      category:
+        $ref: '#/definitions/model.Category'
+      id:
+        type: integer
+      product:
+        $ref: '#/definitions/model.Product'
+      product_category_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  model.User:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Documentation for Challenge Test Synanpsis.id
+  title: Swagger Documentation APIs
+  version: "2.0"
+paths:
+  /auth/login:
+    post:
+      description: login
+      parameters:
+      - description: request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/delivery.credential'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/delivery.successLogin'
+        "500":
+          description: Internal Server Error
+      summary: login
+      tags:
+      - auth
+  /auth/register:
+    post:
+      description: register
+      parameters:
+      - description: request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+      summary: register
+      tags:
+      - auth
+  /product:
+    get:
+      description: view product list by product category
+      parameters:
+      - description: category
+        in: query
+        name: category
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/model.ProductCategory'
+              type: array
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: fetch
+      tags:
+      - product
+  /shopping-cart:
+    get:
+      description: see a list of products that have been added to the shopping cart
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/model.ShoppingCart'
+              type: array
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: read
+      tags:
+      - shopping cart
+    post:
+      description: add product to shopping cart
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: request
+        in: body
+        name: shoppingCart
+        required: true
+        schema:
+          $ref: '#/definitions/model.ShoppingCart'
+      responses:
+        "201":
+          description: Created
+        "500":
+          description: Internal Server Error
+      summary: create
+      tags:
+      - shopping cart
+  /shopping-cart/{id}:
+    delete:
+      description: delete product list in shopping cart
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id of shopping cart
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+      summary: delete
+      tags:
+      - shopping cart
+produces:
+- application/json
+swagger: "2.0"

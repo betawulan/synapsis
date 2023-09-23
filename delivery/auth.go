@@ -19,9 +19,16 @@ type credential struct {
 }
 
 type successLogin struct {
-	Token string `json:"token"`
+	Token string `json:"token" example:"vrydfjsdoxkewigfhrujhfwe9r8c48jdfuij"`
 }
 
+//	@Summary		register
+//	@Description	register 
+//	@Tags			auth
+//	@Param			payload body model.User true "request"
+//	@Success		201 {object} string
+//	@Failure		500		
+//	@Router			/auth/register [post]
 func (a authDelivery) register(c echo.Context) error {
 	var user model.User
 
@@ -39,6 +46,13 @@ func (a authDelivery) register(c echo.Context) error {
 	return c.JSON(http.StatusCreated, "success")
 }
 
+//	@Summary		login
+//	@Description	login 
+//	@Tags			auth
+//	@Param			payload	body credential	true "request"
+//	@Success		200	{object} successLogin
+//	@Failure		500		
+//	@Router			/auth/login [post]
 func (a authDelivery) login(c echo.Context) error {
 	cred := credential{}
 

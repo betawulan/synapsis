@@ -16,6 +16,14 @@ type shoppingCartDelivery struct {
 	shoppingCartService service.ShoppingCartService
 }
 
+//	@Summary		create
+//	@Description	add product to shopping cart
+//	@Tags			shopping cart
+//	@Param			Authorization header string true "Bearer token"
+//  @Param          shoppingCart body model.ShoppingCart true "request"
+//	@Success		201				
+//	@Failure		500			
+//	@Router			/shopping-cart [post]
 func (s shoppingCartDelivery) create(c echo.Context) error {
 	token := c.Request().Header.Get("Authorization")
 	if token == "" {
@@ -46,6 +54,14 @@ func (s shoppingCartDelivery) create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, "success")
 }
 
+//	@Summary		delete
+//	@Description	delete product list in shopping cart
+//	@Tags			shopping cart
+//	@Param			Authorization header string true "Bearer token"
+//  @Param          id path integer true "id of shopping cart"
+//	@Success		204				
+//	@Failure		500			
+//	@Router			/shopping-cart/{id} [delete]
 func (s shoppingCartDelivery) delete(c echo.Context) error {
 	token := c.Request().Header.Get("Authorization")
 	if token == "" {
@@ -75,6 +91,13 @@ func (s shoppingCartDelivery) delete(c echo.Context) error {
 	return c.JSON(http.StatusNoContent, nil)
 }
 
+// @Summary 	read 
+// @Description see a list of products that have been added to the shopping cart
+// @Tags 		shopping cart
+//	@Param			Authorization header string true "Bearer token"
+// @Success 	200 {array} []model.ShoppingCart
+// @Failure 	500 
+// @Router 		/shopping-cart [get]
 func (s shoppingCartDelivery) read(c echo.Context) error {
 	token := c.Request().Header.Get("Authorization")
 	if token == "" {

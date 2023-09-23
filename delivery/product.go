@@ -13,6 +13,13 @@ type productDelivery struct {
 	productService service.ProductService
 }
 
+//	@Summary		fetch
+//	@Description	view product list by product category
+//	@Tags			product
+//  @Param category query string false "category"
+//	@Success		200 {array} []model.ProductCategory
+//	@Failure		500
+//	@Router			/product [get]
 func (p productDelivery) fetch(c echo.Context) error {
 	filter := model.ProductCategoryFilter{}
 	filter.Category = c.QueryParam("category")

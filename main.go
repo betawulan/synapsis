@@ -15,6 +15,11 @@ import (
 	"github.com/betawulan/synapsis/service"
 )
 
+//	@title Swagger Documentation APIs
+//  @version 2.0
+//	@description Documentation for Challenge Test Synanpsis.id
+//	@Accept json
+//	@Produce json
 func main() {
 	viper.AutomaticEnv()
 	viper.SetConfigType("env")
