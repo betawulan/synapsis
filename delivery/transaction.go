@@ -22,8 +22,8 @@ type inputProductCategoryIDs struct {
 //	@Description	checkout product
 //	@Tags			transaction
 //	@Param			Authorization header string true "Bearer token"
-//  @Param          productCategoryID body inputProductCategoryIDstrue "request"
-//	@Success		201 {object} string
+//  @Param          productCategoryIDs body inputProductCategoryIDs true "request"
+//	@Success		201 {object} model.TransactionResponse
 //	@Failure		500
 //	@Router			/checkout [post]
 func (t transactionDelivery) checkout(c echo.Context) error {

@@ -10,6 +10,13 @@ definitions:
       role:
         type: string
     type: object
+  delivery.inputProductCategoryIDs:
+    properties:
+      product_category_ids:
+        items:
+          type: integer
+        type: array
+    type: object
   delivery.successLogin:
     properties:
       token:
@@ -43,15 +50,12 @@ definitions:
     type: object
   model.ShoppingCart:
     properties:
-      category:
-        $ref: '#/definitions/model.Category'
-      id:
-        type: integer
-      product:
-        $ref: '#/definitions/model.Product'
       product_category_id:
         type: integer
-      user_id:
+    type: object
+  model.TransactionResponse:
+    properties:
+      sum_prices:
         type: integer
     type: object
   model.User:
@@ -111,6 +115,31 @@ paths:
       summary: register
       tags:
       - auth
+  /checkout:
+    post:
+      description: checkout product
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: request
+        in: body
+        name: productCategoryIDs
+        required: true
+        schema:
+          $ref: '#/definitions/delivery.inputProductCategoryIDs'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.TransactionResponse'
+        "500":
+          description: Internal Server Error
+      summary: checkout
+      tags:
+      - transaction
   /product:
     get:
       description: view product list by product category

@@ -83,6 +83,44 @@ const docTemplate = `{
                 }
             }
         },
+        "/checkout": {
+            "post": {
+                "description": "checkout product",
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "checkout",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "request",
+                        "name": "productCategoryIDs",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/delivery.inputProductCategoryIDs"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.TransactionResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/product": {
             "get": {
                 "description": "view product list by product category",
@@ -234,6 +272,17 @@ const docTemplate = `{
                 }
             }
         },
+        "delivery.inputProductCategoryIDs": {
+            "type": "object",
+            "properties": {
+                "product_category_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
         "delivery.successLogin": {
             "type": "object",
             "properties": {
@@ -285,19 +334,15 @@ const docTemplate = `{
         "model.ShoppingCart": {
             "type": "object",
             "properties": {
-                "category": {
-                    "$ref": "#/definitions/model.Category"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "product": {
-                    "$ref": "#/definitions/model.Product"
-                },
                 "product_category_id": {
                     "type": "integer"
-                },
-                "user_id": {
+                }
+            }
+        },
+        "model.TransactionResponse": {
+            "type": "object",
+            "properties": {
+                "sum_prices": {
                     "type": "integer"
                 }
             }
