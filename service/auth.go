@@ -4,9 +4,10 @@ import (
 	"context"
 	"time"
 
+	"github.com/golang-jwt/jwt"
+
 	"github.com/betawulan/synapsis/model"
 	"github.com/betawulan/synapsis/repository"
-	"github.com/golang-jwt/jwt"
 )
 
 type authService struct {

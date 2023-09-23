@@ -9,7 +9,6 @@ import (
 	"github.com/betawulan/synapsis/model"
 )
 
-
 type authRepo struct {
 	db *sql.DB
 }

@@ -11,8 +11,11 @@ type AuthRepository interface {
 	Login(ctx context.Context, role string, email string, password string) (model.User, error)
 }
 
-type OnlineStoreRepository interface {
+type ProductRepository interface {
 	Fetch(ctx context.Context, filter model.ProductCategoryFilter) ([]model.ProductCategory, error)
+}
+
+type ShoppingCartRepository interface {
 	Create(ctx context.Context, shoppingCart model.ShoppingCart) (model.ShoppingCart, error)
 	Delete(ctx context.Context, ID int64) error
 	Read(ctx context.Context, user int64) ([]model.ShoppingCart, error)
