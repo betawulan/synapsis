@@ -36,7 +36,7 @@ func (a authDelivery) register(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
 
-	return c.JSON(http.StatusCreated, nil)
+	return c.JSON(http.StatusCreated, "success")
 }
 
 func (a authDelivery) login(c echo.Context) error {
