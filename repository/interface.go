@@ -20,3 +20,8 @@ type ShoppingCartRepository interface {
 	Delete(ctx context.Context, ID int64) error
 	Read(ctx context.Context, user int64) ([]model.ShoppingCart, error)
 }
+
+type TransactionRepository interface {
+	CreateTransaction(ctx context.Context, userID int64, productCategoryIDs []int, sumPrice int) error
+	SumPrice(ctx context.Context, userID int64, productCategoryIDs []int) (int, error)
+}

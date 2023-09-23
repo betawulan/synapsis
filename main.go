@@ -42,15 +42,18 @@ func main() {
 	authRepo := repository.NewAuthRepository(db)
 	productRepo := repository.NewProductRepository(db)
 	shoppingCartRepo := repository.NewShoppingCartRepository(db)
+	transactionRepo := repository.NewTransactionRepository(db)
 
 	authService := service.NewAuthService(authRepo, []byte(secretKey))
 	productService := service.NewProductService(productRepo)
 	shoppingCartService := service.NewShoppingCartService(shoppingCartRepo, []byte(secretKey))
+	transactionService := service.NewTransactionService(transactionRepo, []byte(secretKey))
 
 	e := echo.New()
 	delivery.AddAuthRoute(authService, e)
 	delivery.AddProductRoute(productService, e)
 	delivery.AddShoppingCartRoute(shoppingCartService, e)
+	delivery.AddTransactionRoute(transactionService, e)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", port)))
 }

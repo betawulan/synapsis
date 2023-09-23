@@ -20,3 +20,7 @@ type ShoppingCartService interface {
 	Delete(ctx context.Context, tokenString string, ID int64) error
 	Read(ctx context.Context, tokenString string) ([]model.ShoppingCart, error)
 }
+
+type TransactionService interface {
+	Checkout(ctx context.Context, tokenString string,productCategoryIDs []int) error
+}
