@@ -17,3 +17,6 @@
 
     1. Swagger documentation is in the docs folder -> swagger.yaml
 
+**ERD**
+
+    https://postimg.cc/NLsCKpH5
