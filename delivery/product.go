@@ -3,7 +3,7 @@ package delivery
 import (
 	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 
 	"github.com/betawulan/synapsis/model"
 	"github.com/betawulan/synapsis/service"

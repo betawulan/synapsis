@@ -5,7 +5,7 @@ import (
 
 	"github.com/betawulan/synapsis/model"
 	"github.com/betawulan/synapsis/service"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type authDelivery struct {

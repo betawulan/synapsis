@@ -6,9 +6,10 @@ import (
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
-
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
+	"github.com/swaggo/echo-swagger"
+	_ "github.com/betawulan/synapsis/docs"
 
 	"github.com/betawulan/synapsis/delivery"
 	"github.com/betawulan/synapsis/repository"
@@ -54,6 +55,8 @@ func main() {
 	delivery.AddProductRoute(productService, e)
 	delivery.AddShoppingCartRoute(shoppingCartService, e)
 	delivery.AddTransactionRoute(transactionService, e)
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", port)))
 }

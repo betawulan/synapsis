@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 
 	"github.com/betawulan/synapsis/error_message"
 	"github.com/betawulan/synapsis/service"
